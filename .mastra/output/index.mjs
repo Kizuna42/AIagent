@@ -10,7 +10,8 @@ import { z, ZodFirstPartyTypeKind } from 'zod';
 import { openai } from '@ai-sdk/openai';
 import { Agent } from '@mastra/core/agent';
 import { Memory } from '@mastra/memory';
-import { weatherTool } from './tools/11b9c42d-c79c-463d-8349-5057d6618953.mjs';
+import { weatherTool } from './tools/8bc9a362-b80b-4251-9e1d-e0b1af3c5878.mjs';
+import { searchTool } from './tools/58bf90da-5b96-4501-aee5-3dee04fab037.mjs';
 import crypto, { randomUUID } from 'crypto';
 import { readFile } from 'fs/promises';
 import { join } from 'path/posix';
@@ -200,12 +201,40 @@ const weatherAgent = new Agent({
   })
 });
 
+const searchAgent = new Agent({
+  name: "Search Agent",
+  instructions: `
+      You are a helpful search assistant that can find information on the web using Brave Search.
+
+      Your primary function is to help users search for information and provide relevant results. When responding:
+      - If the user provides a search query, use the searchTool to find relevant information
+      - Always provide clear, well-organized summaries of the search results
+      - Include relevant links and sources when available
+      - If the search returns no results, suggest alternative search terms
+      - For complex queries, break them down into simpler searches if needed
+      - Provide context and explanations for technical or specialized information
+      - Keep responses informative but concise
+      - If asked about recent events or current information, prioritize newer results
+
+      Use the searchTool to fetch web search results and provide comprehensive answers based on the findings.
+`,
+  model: openai("gpt-4o-mini"),
+  tools: { searchTool },
+  memory: new Memory({
+    storage: new LibSQLStore({
+      url: "file:../mastra.db"
+      // path is relative to the .mastra/output directory
+    })
+  })
+});
+
 const mastra = new Mastra({
   workflows: {
     weatherWorkflow
   },
   agents: {
-    weatherAgent
+    weatherAgent,
+    searchAgent
   },
   storage: new LibSQLStore({
     // stores telemetry, evals, ... into memory storage, if it needs to persist, change to file:../mastra.db
