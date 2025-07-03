@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
-import { InfoIcon } from "lucide-react";
-import { FetchDataSteps } from "@/components/tutorial/fetch-data-steps";
+import { InfoIcon, Search } from "lucide-react";
+import { ChatContainer } from "@/components/chat/chat-container";
 
 export default async function ProtectedPage() {
   const supabase = await createClient();
@@ -13,23 +13,36 @@ export default async function ProtectedPage() {
   }
 
   return (
-    <div className="flex-1 w-full flex flex-col gap-12">
+    <div className="flex-1 w-full flex flex-col gap-8">
       <div className="w-full">
         <div className="bg-accent text-sm p-3 px-5 rounded-md text-foreground flex gap-3 items-center">
           <InfoIcon size="16" strokeWidth={2} />
-          This is a protected page that you can only see as an authenticated
-          user
+          認証済みユーザー専用のAI検索プラットフォームです
         </div>
       </div>
-      <div className="flex flex-col gap-2 items-start">
-        <h2 className="font-bold text-2xl mb-4">Your user details</h2>
-        <pre className="text-xs font-mono p-3 rounded border max-h-32 overflow-auto">
-          {JSON.stringify(data.user, null, 2)}
-        </pre>
+      
+      <div className="space-y-6">
+        <div className="space-y-2">
+          <div className="flex items-center gap-2">
+            <Search className="h-6 w-6 text-blue-600" />
+            <h2 className="font-bold text-2xl">AI検索エージェント</h2>
+          </div>
+          <p className="text-muted-foreground">
+            Brave Search APIを活用した高性能AI検索システム。
+            質問を入力すると、Web上の最新情報を検索して回答します。
+          </p>
+        </div>
+        
+        <ChatContainer />
       </div>
-      <div>
-        <h2 className="font-bold text-2xl mb-4">Next steps</h2>
-        <FetchDataSteps />
+      
+      <div className="mt-8 p-4 bg-muted/50 rounded-lg text-sm text-muted-foreground">
+        <p className="font-medium mb-2">使用方法:</p>
+        <ul className="space-y-1 list-disc list-inside">
+          <li>検索したい内容や質問を自然言語で入力</li>
+          <li>AIが自動的にWeb検索を実行し、結果を分析</li>
+          <li>関連情報やソースリンクと共に回答を提供</li>
+        </ul>
       </div>
     </div>
   );
