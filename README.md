@@ -1,106 +1,294 @@
-<a href="https://demo-nextjs-with-supabase.vercel.app/">
-  <img alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="https://demo-nextjs-with-supabase.vercel.app/opengraph-image.png">
-  <h1 align="center">Next.js and Supabase Starter Kit</h1>
-</a>
+# 🤖 AI 検索エージェント
+
+<div align="center">
+  <img src="https://img.shields.io/badge/Next.js-15.3.4-black?style=for-the-badge&logo=next.js" alt="Next.js">
+  <img src="https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript" alt="TypeScript">
+  <img src="https://img.shields.io/badge/Supabase-Latest-green?style=for-the-badge&logo=supabase" alt="Supabase">
+  <img src="https://img.shields.io/badge/Mastra-0.10.9-purple?style=for-the-badge" alt="Mastra">
+</div>
 
 <p align="center">
- The fastest way to build apps with Next.js and Supabase
+  <strong>先進のAI技術と直感的なデザインが織りなす、新しい検索体験</strong>
 </p>
 
 <p align="center">
-  <a href="#features"><strong>Features</strong></a> ·
-  <a href="#demo"><strong>Demo</strong></a> ·
-  <a href="#deploy-to-vercel"><strong>Deploy to Vercel</strong></a> ·
-  <a href="#clone-and-run-locally"><strong>Clone and run locally</strong></a> ·
-  <a href="#feedback-and-issues"><strong>Feedback and issues</strong></a>
-  <a href="#more-supabase-examples"><strong>More Examples</strong></a>
+  Brave Search API と OpenAI GPT-4を活用した、インテリジェントな検索プラットフォーム
 </p>
-<br/>
 
-## Features
+---
 
-- Works across the entire [Next.js](https://nextjs.org) stack
-  - App Router
-  - Pages Router
-  - Middleware
-  - Client
-  - Server
-  - It just works!
-- supabase-ssr. A package to configure Supabase Auth to use cookies
-- Password-based authentication block installed via the [Supabase UI Library](https://supabase.com/ui/docs/nextjs/password-based-auth)
-- Styling with [Tailwind CSS](https://tailwindcss.com)
-- Components with [shadcn/ui](https://ui.shadcn.com/)
-- Optional deployment with [Supabase Vercel Integration and Vercel deploy](#deploy-your-own)
-  - Environment variables automatically assigned to Vercel project
+## ✨ 主な機能
 
-## Demo
+### 🔍 **AI 検索エージェント**
 
-You can view a fully working demo at [demo-nextjs-with-supabase.vercel.app](https://demo-nextjs-with-supabase.vercel.app/).
+- **Brave Search API**を活用した Web 検索
+- **OpenAI GPT-4o-mini**による結果の分析と要約
+- 自然言語での質問に対する包括的な回答
+- ソースリンクと関連情報の提供
 
-## Deploy to Vercel
+### 🌤️ **天気エージェント**
 
-Vercel deployment will guide you through creating a Supabase account and project.
+- 位置情報に基づく天気予報
+- 天気に応じた活動提案
+- Open-Meteo API を使用した正確な気象データ
 
-After installation of the Supabase integration, all relevant environment variables will be assigned to the project so the deployment is fully functioning.
+### 🎨 **モダンな UI/UX**
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&project-name=nextjs-with-supabase&repository-name=nextjs-with-supabase&demo-title=nextjs-with-supabase&demo-description=This+starter+configures+Supabase+Auth+to+use+cookies%2C+making+the+user%27s+session+available+throughout+the+entire+Next.js+app+-+Client+Components%2C+Server+Components%2C+Route+Handlers%2C+Server+Actions+and+Middleware.&demo-url=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2F&external-id=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&demo-image=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2Fopengraph-image.png)
+- **shadcn/ui**による洗練されたコンポーネント
+- **Tailwind CSS**でのレスポンシブデザイン
+- ダークモード・ライトモード対応
+- リアルタイムチャット機能
 
-The above will also clone the Starter kit to your GitHub, you can clone that locally and develop locally.
+### 🔐 **セキュリティ**
 
-If you wish to just develop locally and not deploy to Vercel, [follow the steps below](#clone-and-run-locally).
+- **Supabase Auth**による認証システム
+- Row Level Security (RLS)
+- 認証済みユーザーのみアクセス可能
 
-## Clone and run locally
+---
 
-1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new)
+## 🚀 クイックスタート
 
-2. Create a Next.js app using the Supabase Starter template npx command
+### 1. 環境要件
 
-   ```bash
-   npx create-next-app --example with-supabase with-supabase-app
-   ```
+- **Node.js** 18.0 以上
+- **npm** または **yarn**
+- **Supabase**アカウント
 
-   ```bash
-   yarn create next-app --example with-supabase with-supabase-app
-   ```
+### 2. インストール
 
-   ```bash
-   pnpm create next-app --example with-supabase with-supabase-app
-   ```
+```bash
+# リポジトリをクローン
+git clone https://github.com/your-username/aiagent-app.git
+cd aiagent-app
 
-3. Use `cd` to change into the app's directory
+# 依存関係をインストール
+npm install
+```
 
-   ```bash
-   cd with-supabase-app
-   ```
+### 3. 環境変数の設定
 
-4. Rename `.env.example` to `.env.local` and update the following:
+`.env.local`ファイルを作成し、以下の設定を追加：
 
-   ```
-   NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=[INSERT SUPABASE PROJECT API ANON KEY]
-   ```
+```env
+# Supabase設定
+NEXT_PUBLIC_SUPABASE_URL=your-supabase-project-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
 
-   Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` can be found in [your Supabase project's API settings](https://supabase.com/dashboard/project/_?showConnect=true)
+# AI API設定
+OPENAI_API_KEY=your-openai-api-key
+BRAVE_SEARCH_API_KEY=your-brave-search-api-key
+```
 
-5. You can now run the Next.js local development server:
+### 4. 開発サーバーの起動
 
-   ```bash
-   npm run dev
-   ```
+```bash
+# 開発サーバーを起動 (Turbopack使用)
+npm run dev
+```
 
-   The starter kit should now be running on [localhost:3000](http://localhost:3000/).
+🎉 **http://localhost:3000** でアプリケーションにアクセス！
 
-6. This template comes with the default shadcn/ui style initialized. If you instead want other ui.shadcn styles, delete `components.json` and [re-install shadcn/ui](https://ui.shadcn.com/docs/installation/next)
+---
 
-> Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
+## 📁 プロジェクト構造
 
-## Feedback and issues
+```
+aiagent-app/
+├── app/                    # Next.js App Router
+│   ├── api/               # API Routes
+│   │   └── search/        # 検索API
+│   ├── auth/              # 認証ページ
+│   ├── protected/         # 認証必須ページ
+│   └── page.tsx           # ホームページ
+├── components/            # Reactコンポーネント
+│   ├── chat/              # チャット機能
+│   ├── ui/                # shadcn/ui基本コンポーネント
+│   └── ...
+├── src/mastra/            # Mastraフレームワーク
+│   ├── agents/            # AIエージェント
+│   │   ├── search-agent.ts    # 検索エージェント
+│   │   └── weather-agent.ts   # 天気エージェント
+│   ├── tools/             # AIツール
+│   │   ├── search-tool.ts     # 検索ツール
+│   │   └── weather-tool.ts    # 天気ツール
+│   └── workflows/         # ワークフロー
+└── lib/                   # ユーティリティ
+    └── supabase/          # Supabase設定
+```
 
-Please file feedback and issues over on the [Supabase GitHub org](https://github.com/supabase/supabase/issues/new/choose).
+---
 
-## More Supabase examples
+## 🔧 技術スタック
 
-- [Next.js Subscription Payments Starter](https://github.com/vercel/nextjs-subscription-payments)
-- [Cookie-based Auth and the Next.js 13 App Router (free course)](https://youtube.com/playlist?list=PL5S4mPUpp4OtMhpnp93EFSo42iQ40XjbF)
-- [Supabase Auth and the Next.js App Router](https://github.com/supabase/supabase/tree/master/examples/auth/nextjs)
-# AIagent
+### **フロントエンド**
+
+- **Next.js 15** - React フレームワーク (App Router)
+- **TypeScript** - 型安全性
+- **Tailwind CSS** - スタイリング
+- **shadcn/ui** - UI コンポーネント
+- **Lucide React** - アイコン
+
+### **バックエンド**
+
+- **Supabase** - 認証・データベース
+- **Mastra** - AI エージェントフレームワーク
+- **OpenAI API** - GPT-4o-mini
+- **Brave Search API** - Web 検索
+
+### **開発ツール**
+
+- **Turbopack** - 高速バンドラー
+- **ESLint** - コード品質
+- **Prettier** - コードフォーマット
+
+---
+
+## 🌟 使用方法
+
+### 1. **アカウント作成**
+
+- アプリケーションにアクセス
+- 「サインアップ」からアカウントを作成
+- メール認証を完了
+
+### 2. **AI 検索を体験**
+
+- 認証後、検索画面にアクセス
+- 自然言語で質問を入力
+- AI が自動的に Web 検索を実行し、結果を分析
+
+### 3. **検索例**
+
+```
+「最新のAI技術のトレンドについて教えて」
+「2024年の気候変動対策について」
+「Next.js 15の新機能は何ですか？」
+```
+
+---
+
+## 🛠️ 開発コマンド
+
+```bash
+# 開発サーバー起動
+npm run dev
+
+# プロダクションビルド
+npm run build
+
+# プロダクションサーバー起動
+npm start
+
+# リンター実行
+npm run lint
+
+# 型チェック
+npx tsc --noEmit
+```
+
+---
+
+## 🔑 API 設定ガイド
+
+### **Supabase 設定**
+
+1. [Supabase](https://supabase.com)でプロジェクトを作成
+2. Project Settings → API から URL とキーを取得
+3. Authentication → URL Configuration でリダイレクト URL を設定
+
+### **OpenAI API**
+
+1. [OpenAI Platform](https://platform.openai.com)で API キーを取得
+2. 使用量に応じた料金プランを選択
+
+### **Brave Search API**
+
+1. [Brave Search API](https://api.search.brave.com)でアカウント作成
+2. API キーを取得
+
+---
+
+## 📊 主要機能の詳細
+
+### **検索エージェント**
+
+- 自然言語クエリの理解
+- 複数検索結果の統合・要約
+- 関連リンクとソースの提供
+- 文脈に応じた回答生成
+
+### **天気エージェント**
+
+- 位置ベースの天気予報
+- 活動提案機能
+- 詳細な気象データ表示
+
+### **チャット機能**
+
+- リアルタイム対話
+- ストリーミング応答
+- 検索履歴の保持
+- レスポンシブデザイン
+
+---
+
+## 🚀 デプロイ
+
+### **Vercel (推奨)**
+
+```bash
+# Vercelにデプロイ
+npx vercel
+
+# 環境変数を設定
+vercel env add NEXT_PUBLIC_SUPABASE_URL
+vercel env add NEXT_PUBLIC_SUPABASE_ANON_KEY
+vercel env add OPENAI_API_KEY
+vercel env add BRAVE_SEARCH_API_KEY
+```
+
+### **その他のプラットフォーム**
+
+- **Netlify**
+- **Railway**
+- **Heroku**
+
+---
+
+## 🤝 コントリビューション
+
+プロジェクトへの貢献を歓迎します！
+
+1. **Fork** このリポジトリ
+2. **Feature branch** を作成 (`git checkout -b feature/amazing-feature`)
+3. **Commit** 変更 (`git commit -m 'Add amazing feature'`)
+4. **Push** ブランチ (`git push origin feature/amazing-feature`)
+5. **Pull Request** を作成
+
+---
+
+## 📄 ライセンス
+
+このプロジェクトは **MIT License** の下で公開されています。
+
+---
+
+## 🙏 謝辞
+
+- [Next.js](https://nextjs.org) - 素晴らしい React フレームワーク
+- [Supabase](https://supabase.com) - 優れた BaaS プラットフォーム
+- [Mastra](https://mastra.ai) - AI エージェントフレームワーク
+- [shadcn/ui](https://ui.shadcn.com) - 美しい UI コンポーネント
+- [Brave Search](https://search.brave.com) - プライバシー重視の検索 API
+
+---
+
+<div align="center">
+  <p>
+    <strong>毎日を少しだけ豊かにする、新しい検索体験</strong>
+  </p>
+  <p>
+    Made with ❤️ by the AI Agent Team
+  </p>
+</div>
