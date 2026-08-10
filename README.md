@@ -11,13 +11,17 @@
   <strong>Brave Search × OpenAI GPT-4o-mini による、Web 検索 AI エージェント</strong>
 </p>
 
+---
+
+## 📝 概要
+
 自然言語で質問すると、AI が **Brave Search API** で Web を検索し、結果を要約して
 出典リンク付きで回答します。検索の実行から要約までを 1 つのチャット体験にまとめた、
 個人開発の MVP です。
 
 ---
 
-## ✨ 主な機能
+## ✨ 機能一覧
 
 | 機能 | 内容 |
 | --- | --- |
@@ -31,12 +35,60 @@
 
 ---
 
-## 🏗️ アーキテクチャ
+## 🛠️ 技術スタック
+
+| レイヤー | 採用技術 |
+| --- | --- |
+| フロントエンド | Next.js 15 (App Router) / React 19 / TypeScript 5 |
+| スタイリング | Tailwind CSS / shadcn/ui / lucide-react |
+| AI | Vercel AI SDK / Mastra (`@mastra/core`) / OpenAI GPT-4o-mini |
+| 検索 | Brave Search API |
+| 認証 | Supabase Auth（`@supabase/ssr` による Cookie ベースの SSR セッション） |
+| 開発 | Turbopack / ESLint |
+
+---
+
+## 🚀 セットアップ
+
+### 1. 必要環境
+
+- Node.js 20.9.0 以上（Mastra と開発ツールを含む lockfile の要件）
+- Supabase プロジェクト / OpenAI API キー / Brave Search API キー
+
+### 2. インストールと環境変数
+
+```bash
+git clone https://github.com/Kizuna42/AIagent.git
+cd AIagent
+npm install
+
+# 環境変数テンプレートをコピーして値を設定
+cp .env.example .env.local
+```
+
+`.env.local` に以下を設定します（取得先は `.env.example` のコメント参照）。
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+OPENAI_API_KEY=...
+BRAVE_SEARCH_API_KEY=...
+```
+
+### 3. 開発サーバー起動
+
+```bash
+npm run dev        # http://localhost:3000
+```
+
+---
+
+## 🏗️ 実装の工夫
 
 検索ロジックを 1 箇所に集約し、「Mastra のツール定義」と「本番のストリーミング API」の
 両方から同じ実装を再利用する構成にしています。
 
-```
+```text
                        ┌──────────────────────────────┐
    ブラウザ (useChat)  │  components/chat/*            │  ストリーミング購読・ツール結果表示
                        └──────────────┬───────────────┘
@@ -82,57 +134,9 @@
 
 ---
 
-## 🛠️ 技術スタック
-
-| レイヤー | 採用技術 |
-| --- | --- |
-| フロントエンド | Next.js 15 (App Router) / React 19 / TypeScript 5 |
-| スタイリング | Tailwind CSS / shadcn/ui / lucide-react |
-| AI | Vercel AI SDK / Mastra (`@mastra/core`) / OpenAI GPT-4o-mini |
-| 検索 | Brave Search API |
-| 認証 | Supabase Auth（`@supabase/ssr` による Cookie ベースの SSR セッション） |
-| 開発 | Turbopack / ESLint |
-
----
-
-## 🚀 セットアップ
-
-### 1. 必要環境
-
-- Node.js 18 以上
-- Supabase プロジェクト / OpenAI API キー / Brave Search API キー
-
-### 2. インストールと環境変数
-
-```bash
-git clone https://github.com/Kizuna42/AIagent.git
-cd AIagent
-npm install
-
-# 環境変数テンプレートをコピーして値を設定
-cp .env.example .env.local
-```
-
-`.env.local` に以下を設定します（取得先は `.env.example` のコメント参照）。
-
-```env
-NEXT_PUBLIC_SUPABASE_URL=...
-NEXT_PUBLIC_SUPABASE_ANON_KEY=...
-OPENAI_API_KEY=...
-BRAVE_SEARCH_API_KEY=...
-```
-
-### 3. 開発サーバー起動
-
-```bash
-npm run dev        # http://localhost:3000
-```
-
----
-
 ## 📁 プロジェクト構造
 
-```
+```text
 .
 ├── app/
 │   ├── api/search/chat/route.ts   # 検索チャット API（認証 + ストリーミング）
