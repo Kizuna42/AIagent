@@ -1,7 +1,4 @@
-import { openai } from '@ai-sdk/openai';
 import { Agent } from '@mastra/core/agent';
-import { Memory } from '@mastra/memory';
-import { LibSQLStore } from '@mastra/libsql';
 import { searchTool } from '../tools/search-tool';
 
 // 検索エージェントのシステムプロンプト。
@@ -24,13 +21,9 @@ Use the search tool to fetch web search results and provide comprehensive answer
 // 本番 API はストリーミング制御のため AI SDK を直接利用するが、このエージェント定義は
 // 同一ロジックを Mastra のエージェント抽象として表現したもの（マルチエージェント化の起点）。
 export const searchAgent = new Agent({
+  id: 'search-agent',
   name: 'Search Agent',
   instructions: SEARCH_SYSTEM_PROMPT,
-  model: openai('gpt-4o-mini'),
+  model: 'openai/gpt-4o-mini',
   tools: { searchTool },
-  memory: new Memory({
-    storage: new LibSQLStore({
-      url: 'file:../mastra.db', // パスは .mastra/output ディレクトリ基準
-    }),
-  }),
 });

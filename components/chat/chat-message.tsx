@@ -25,7 +25,7 @@ interface ChatMessageProps {
 
 export function ChatMessage({ message }: ChatMessageProps) {
   const isUser = message.role === 'user';
-  const timestamp = message.createdAt || new Date();
+  const timestamp = message.createdAt;
 
   return (
     <div className={cn(
@@ -81,12 +81,14 @@ export function ChatMessage({ message }: ChatMessageProps) {
         </div>
 
         {/* Timestamp */}
-        <div className={cn(
-          'text-xs text-muted-foreground',
-          isUser ? 'text-right' : 'text-left'
-        )}>
-          {format(timestamp, 'HH:mm', { locale: ja })}
-        </div>
+        {timestamp && (
+          <div className={cn(
+            'text-xs text-muted-foreground',
+            isUser ? 'text-right' : 'text-left'
+          )}>
+            {format(timestamp, 'HH:mm', { locale: ja })}
+          </div>
+        )}
       </div>
     </div>
   );

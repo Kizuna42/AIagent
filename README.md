@@ -52,7 +52,7 @@
 
 ### 1. 必要環境
 
-- Node.js 20.9.0 以上（Mastra と開発ツールを含む lockfile の要件）
+- Node.js 22.13.0 以上（Mastra と開発ツールを含む lockfile の要件）
 - Supabase プロジェクト / OpenAI API キー / Brave Search API キー
 
 ### 2. インストールと環境変数

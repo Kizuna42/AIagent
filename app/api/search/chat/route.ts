@@ -1,8 +1,14 @@
-import { streamText, convertToCoreMessages } from 'ai';
+import {
+  convertToModelMessages,
+  stepCountIs,
+  streamText,
+  tool,
+} from 'ai';
 import { NextRequest, NextResponse } from 'next/server';
 import { openai } from '@ai-sdk/openai';
 import { createClient } from '@/lib/supabase/server';
-import { searchTool, performSearch } from '@/src/mastra/tools/search-tool';
+import type { ChatUIMessage } from '@/lib/chat-types';
+import { performSearch, searchInputSchema } from '@/src/mastra/tools/search-tool';
 import { SEARCH_SYSTEM_PROMPT } from '@/src/mastra/agents/search-agent';
 
 export async function POST(req: NextRequest) {
@@ -32,7 +38,7 @@ export async function POST(req: NextRequest) {
     }
 
     // リクエストボディを検証
-    const { messages } = await req.json();
+    const { messages }: { messages: ChatUIMessage[] } = await req.json();
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json(
         { error: 'Messages array is required' },
@@ -40,29 +46,31 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const coreMessages = convertToCoreMessages(messages);
-
     // Mastra で定義した Brave 検索ツールのロジックを AI SDK のツールとして再利用
     const tools = {
-      searchWeb: {
+      searchWeb: tool({
         description: 'Search the web using Brave Search API',
-        parameters: searchTool.inputSchema,
-        execute: async ({ query, count }: { query: string; count?: number }) =>
+        inputSchema: searchInputSchema,
+        execute: async ({ query, count }) =>
           performSearch(query, count),
-      },
+      }),
     };
 
     // ストリーミング応答。AI SDK 標準の maxRetries で一時的な API 障害を自動リトライ
     const result = streamText({
       model: openai('gpt-4o-mini'),
-      messages: coreMessages,
+      messages: await convertToModelMessages(messages),
       tools,
-      maxSteps: 5,
+      stopWhen: stepCountIs(5),
       maxRetries: 3,
       system: SEARCH_SYSTEM_PROMPT,
     });
 
-    return result.toDataStreamResponse();
+    const createdAt = Date.now();
+    return result.toUIMessageStreamResponse<ChatUIMessage>({
+      originalMessages: messages,
+      messageMetadata: ({ part }) => part.type === 'start' ? { createdAt } : undefined,
+    });
   } catch (error) {
     // 詳細はサーバーログのみに残し、クライアントには汎用メッセージを返す
     console.error('Search chat API error:', error);

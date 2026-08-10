@@ -15,13 +15,15 @@ interface BraveSearchResponse {
   };
 }
 
+export const searchInputSchema = z.object({
+  query: z.string().describe('Search query'),
+  count: z.number().int().min(1).max(20).optional().describe('Number of results to return (1-20, default: 10)'),
+});
+
 export const searchTool = createTool({
   id: 'brave-search',
   description: 'Search the web using Brave Search API',
-  inputSchema: z.object({
-    query: z.string().describe('Search query'),
-    count: z.number().int().min(1).max(20).optional().describe('Number of results to return (1-20, default: 10)'),
-  }),
+  inputSchema: searchInputSchema,
   outputSchema: z.object({
     results: z.array(z.object({
       title: z.string(),
@@ -31,8 +33,8 @@ export const searchTool = createTool({
     })),
     query: z.string(),
   }),
-  execute: async ({ context }) => {
-    return await performSearch(context.query, context.count || 10);
+  execute: async ({ query, count }) => {
+    return await performSearch(query, count || 10);
   },
 });
 
