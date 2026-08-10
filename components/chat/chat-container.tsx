@@ -1,21 +1,47 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { useChat } from 'ai/react';
+import { useChat } from '@ai-sdk/react';
+import { DefaultChatTransport } from 'ai';
+import type { ChatUIMessage } from '@/lib/chat-types';
 import { ChatInput } from './chat-input';
 import { ChatMessage } from './chat-message';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle, Search } from 'lucide-react';
 
+const chatTransport = new DefaultChatTransport({ api: '/api/search/chat' });
+
+function getToolInvocations(message: ChatUIMessage) {
+  return message.parts.flatMap((part) => {
+    const isToolPart = part.type === 'dynamic-tool' || part.type.startsWith('tool-');
+    if (!isToolPart || !('toolCallId' in part)) {
+      return [];
+    }
+
+    const input = 'input' in part && typeof part.input === 'object' && part.input !== null
+      ? part.input as Record<string, unknown>
+      : {};
+    const output = 'output' in part && typeof part.output === 'object' && part.output !== null
+      ? part.output as Record<string, unknown>
+      : undefined;
+    const toolName = part.type === 'dynamic-tool' && 'toolName' in part
+      ? String(part.toolName)
+      : part.type.slice('tool-'.length);
+
+    return [{ toolName, toolCallId: part.toolCallId, args: input, result: output }];
+  });
+}
+
 export function ChatContainer() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const { messages, append, isLoading, error } = useChat({
-    api: '/api/search/chat',
+  const { messages, sendMessage, status, error } = useChat<ChatUIMessage>({
+    transport: chatTransport,
     onError: (error) => {
       console.error('Chat error:', error);
     },
   });
+  const isLoading = status === 'submitted' || status === 'streaming';
 
   // 新しいメッセージが来たら最下部までスクロール
   useEffect(() => {
@@ -23,7 +49,7 @@ export function ChatContainer() {
   }, [messages]);
 
   const handleSendMessage = (message: string) => {
-    append({ role: 'user', content: message });
+    sendMessage({ text: message, metadata: { createdAt: Date.now() } });
   };
 
   return (
@@ -57,14 +83,14 @@ export function ChatContainer() {
               <ChatMessage
                 key={message.id}
                 message={{
-                  ...message,
-                  createdAt: message.createdAt || new Date(),
-                  toolInvocations: message.toolInvocations?.map((tool) => ({
-                    toolName: ('toolName' in tool ? tool.toolName as string : 'searchWeb'),
-                    toolCallId: ('toolCallId' in tool ? tool.toolCallId as string : ''),
-                    args: ('args' in tool ? tool.args as Record<string, unknown> : {}),
-                    result: ('result' in tool ? tool.result as Record<string, unknown> : {}),
-                  })),
+                  id: message.id,
+                  role: message.role,
+                  content: message.parts
+                    .filter((part) => part.type === 'text')
+                    .map((part) => part.text)
+                    .join(''),
+                  createdAt: message.metadata ? new Date(message.metadata.createdAt) : undefined,
+                  toolInvocations: getToolInvocations(message),
                 }}
               />
             ))}
