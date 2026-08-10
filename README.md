@@ -52,7 +52,7 @@
 
 ### 1. 必要環境
 
-- Node.js 18 以上
+- Node.js 20.9.0 以上（Mastra と開発ツールを含む lockfile の要件）
 - Supabase プロジェクト / OpenAI API キー / Brave Search API キー
 
 ### 2. インストールと環境変数
@@ -88,7 +88,7 @@ npm run dev        # http://localhost:3000
 検索ロジックを 1 箇所に集約し、「Mastra のツール定義」と「本番のストリーミング API」の
 両方から同じ実装を再利用する構成にしています。
 
-```
+```text
                        ┌──────────────────────────────┐
    ブラウザ (useChat)  │  components/chat/*            │  ストリーミング購読・ツール結果表示
                        └──────────────┬───────────────┘
@@ -136,7 +136,7 @@ npm run dev        # http://localhost:3000
 
 ## 📁 プロジェクト構造
 
-```
+```text
 .
 ├── app/
 │   ├── api/search/chat/route.ts   # 検索チャット API（認証 + ストリーミング）
