@@ -1,10 +1,10 @@
 # 🔍 AI 検索エージェント
 
 <div align="center">
-  <img src="https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js" alt="Next.js 15">
+  <img src="https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js" alt="Next.js 16">
   <img src="https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript" alt="TypeScript 5">
   <img src="https://img.shields.io/badge/Supabase-Auth-3ECF8E?style=for-the-badge&logo=supabase" alt="Supabase">
-  <img src="https://img.shields.io/badge/Mastra-0.10-purple?style=for-the-badge" alt="Mastra 0.10">
+  <img src="https://img.shields.io/badge/Mastra-1.x-purple?style=for-the-badge" alt="Mastra 1.x">
 </div>
 
 <p align="center">
@@ -39,7 +39,7 @@
 
 | レイヤー | 採用技術 |
 | --- | --- |
-| フロントエンド | Next.js 15 (App Router) / React 19 / TypeScript 5 |
+| フロントエンド | Next.js 16 (App Router) / React 19 / TypeScript 5 |
 | スタイリング | Tailwind CSS / shadcn/ui / lucide-react |
 | AI | Vercel AI SDK / Mastra (`@mastra/core`) / OpenAI GPT-4o-mini |
 | 検索 | Brave Search API |

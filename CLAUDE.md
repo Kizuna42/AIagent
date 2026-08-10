@@ -6,14 +6,14 @@
 
 **Brave Search × OpenAI GPT-4o-mini による Web 検索 AI エージェント**（個人開発の MVP）。
 自然言語の質問を受け取り、AI が Web 検索を実行して結果を要約・回答する。
-Next.js 15（App Router）+ Supabase 認証をベースに、Mastra と Vercel AI SDK で
+Next.js 16（App Router）+ Supabase 認証をベースに、Mastra と Vercel AI SDK で
 エージェント機能を実装している。
 
 実装済みの機能と今後の構想は [README.md](./README.md) を参照（README には「動作する機能」のみを記載）。
 
 ## 技術スタック
 
-- **フロントエンド**: Next.js 15 (App Router) / React 19 / TypeScript 5
+- **フロントエンド**: Next.js 16 (App Router) / React 19 / TypeScript 5
 - **スタイリング**: Tailwind CSS / shadcn/ui / lucide-react
 - **AI**: Vercel AI SDK (`ai`) / Mastra (`@mastra/core`) / OpenAI GPT-4o-mini
 - **検索**: Brave Search API
