@@ -1,0 +1,17 @@
+version: 2
+updates:
+  # ci.yml の action は commit SHA で固定している。更新の受け口が無いと黙って腐るため、
+  # SHA ピンと dependabot は対にして運用する。
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 2
+    groups:
+      github-actions:
+        patterns: ["*"]
+
+  # npm ecosystem は入れていない。
+  # 依存が 22 + 10 あり、grouped 更新は1つ壊れると全体がマージ不能になる
+  # （同一アカウントの RAG リポで PR #56 / #76 が実際にそうなった）。
+  # 必要になったら ignore ルールを設計した上で足す。

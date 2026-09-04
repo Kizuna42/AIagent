@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# 読み取りのみ。このワークフローは成果物を publish しない
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: type-check / lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          # ローカル検証は v26.8.1 で行った。engines は ">=22.13.0" だが 22 系は未検証
+          node-version: '26'
+          cache: npm
+
+      # lockfile と package.json が食い違っていたらここで落とす
+      - name: install
+        run: npm ci
+
+      - name: type-check
+        run: npm run type-check
+
+      - name: lint
+        run: npm run lint
+
+# next build を入れていない理由:
+# ビルドが NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY /
+# OPENAI_API_KEY / BRAVE_SEARCH_API_KEY を要求する（.env.example 参照）。
+# CI で回すにはリポジトリ Secrets の登録が要り、それはリポジトリ所有者の作業になる。
+# Secrets を入れたら build ステップを足す。
