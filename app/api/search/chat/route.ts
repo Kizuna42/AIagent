@@ -37,9 +37,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // リクエストボディを検証
-    const { messages }: { messages: ChatUIMessage[] } = await req.json();
-    if (!messages || !Array.isArray(messages)) {
+    // リクエストボディを検証（不正な JSON は 500 ではなく 400 を返す）
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+    }
+    const messages = (body as { messages?: ChatUIMessage[] } | null)?.messages;
+    if (!messages || !Array.isArray(messages) || messages.length === 0) {
       return NextResponse.json(
         { error: 'Messages array is required' },
         { status: 400 }
