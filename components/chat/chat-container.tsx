@@ -35,7 +35,7 @@ function getToolInvocations(message: ChatUIMessage) {
 export function ChatContainer() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const { messages, sendMessage, status, error } = useChat<ChatUIMessage>({
+  const { messages, sendMessage, status, error, clearError } = useChat<ChatUIMessage>({
     transport: chatTransport,
     onError: (error) => {
       console.error('Chat error:', error);
@@ -49,6 +49,10 @@ export function ChatContainer() {
   }, [messages]);
 
   const handleSendMessage = (message: string) => {
+    // 直前のエラー表示を消してから再送できるようにする（以前は一度エラーになると入力不能になっていた）
+    if (error) {
+      clearError();
+    }
     sendMessage({ text: message, metadata: { createdAt: Date.now() } });
   };
 
@@ -115,7 +119,6 @@ export function ChatContainer() {
       <ChatInput
         onSendMessage={handleSendMessage}
         isLoading={isLoading}
-        disabled={!!error}
       />
     </div>
   );
