@@ -1,16 +1,8 @@
+import { getSafeRedirectPath } from "@/lib/safe-redirect";
 import { createClient } from "@/lib/supabase/server";
 import { type EmailOtpType } from "@supabase/supabase-js";
 import { redirect } from "next/navigation";
 import { type NextRequest } from "next/server";
-
-// `next` クエリはユーザーが自由に指定できるため、同一オリジンの相対パスのみ許可する。
-// `//evil.com` や `/\evil.com`、`https://evil.com` を渡されてもオープンリダイレクトにならないようにする。
-function getSafeRedirectPath(next: string | null): string {
-  if (!next || !next.startsWith("/") || next.startsWith("//") || next.startsWith("/\\")) {
-    return "/";
-  }
-  return next;
-}
 
 function errorRedirect(message: string): never {
   redirect(`/auth/error?error=${encodeURIComponent(message)}`);
